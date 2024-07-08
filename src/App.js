@@ -66,7 +66,7 @@ function App() {
   const localName = localStorage.getItem('name');
   const [self, setSelf] = useState(localName);
   const [loading, setLoading] = useState(false);
-  
+    
   useEffect(() => {
     setReq(null);
     setLoading(true);
@@ -178,7 +178,7 @@ function App() {
       {Card(response?.omer)}
       {Card(response?.oguzhan)}
       {Card(response?.efe)}
-        <button  className="button" style={{display: 'flex',width: 200, height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 100}} onClick={() => {localStorage.removeItem('name');}}>Çıkış</button>
+        <button  className="button" style={{display: 'flex',width: 200, height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 100}} onClick={() => {localStorage.removeItem('name'); setSelf(null)}}>Çıkış</button>
     </div>
   );}
   else {
