@@ -109,7 +109,6 @@ function App() {
 }, [response]);
 
   function update() {
-    console.log('ben .ali;tim')
     setLoading(true);
     axios.put(`https://api.jsonbin.io/v3/b/668b0ffbad19ca34f8845079`, {"data": req}, {
       headers: {
@@ -158,7 +157,7 @@ function App() {
         setReq({...response, okan: {...response.okan, remaining: response.okan.remaining-1}});
       };
       if (self == 'oguzhan') {
-        setReq({...response, oguzhan: {...response.Oguzhan, remaining: response.Oguzhan.remaining-1}});
+        setReq({...response, oguzhan: {...response.oguzhan, remaining: response.oguzhan.remaining-1}});
       };
       if (self == 'omer') {
         setReq({...response, omer: {...response.omer, remaining: response.omer.remaining-1}});
