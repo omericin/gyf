@@ -41,7 +41,15 @@ function App() {
             "name": "Efe",
             "password": "bengeyim",
             "disable": true
-        }
+        },
+        "mert": {
+          "id": 5,
+          "limit": 10,
+          "remaining": 10,
+          "user": "mert",
+          "name": "Mert",
+          "password": "farukdilmez",
+      }
     };
 
   const Card = (data) => {
@@ -76,7 +84,7 @@ function App() {
         }
       }).then((res) => {
       setLoading(false);
-      setResponse(res.data.record.data);
+            setResponse(res.data.record.data);
       }).catch((err) => {
       setLoading(false);
       console.log('err', err);
@@ -165,6 +173,9 @@ function App() {
       if (self == 'efe') {
         setReq({...response, efe: {...response.efe, remaining: response.efe.remaining-1}});
       };
+      if (self == 'mert') {
+        setReq({...response, mert: {...response.mert, remaining: response.mert.remaining-1}});
+      };
     };
   
   if (loading) {return(<div style={{ display: 'flex', width: '100%', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
@@ -178,6 +189,7 @@ function App() {
       {Card(response?.omer)}
       {Card(response?.oguzhan)}
       {Card(response?.efe)}
+      {Card(response?.mert)}
         <button  className="button" style={{display: 'flex',width: 200, height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 100}} onClick={() => {localStorage.removeItem('name'); setSelf(null)}}>Çıkış</button>
     </div>
   );}
