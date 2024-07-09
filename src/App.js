@@ -52,17 +52,17 @@ function App() {
       }
     };
 
-  const Card = (data) => {
+  const Card = (data, bgcolor, color) => {
     return (
       <div className="cardx">
-        <div className='text'>
+        <div className='text' style={bgcolor && {backgroundColor: bgcolor, color: color}}>
           {data?.name}:&nbsp;&nbsp;
         </div>
-        <div className='text'>
+        <div className='text' style={bgcolor && {backgroundColor: bgcolor, color: color}}>
           {data?.remaining < 0 && <div>&nbsp;Limit aşımı!</div>}
           {data?.remaining >= 0 && <div>{data?.remaining}&nbsp;/&nbsp;</div>}
         </div>
-        <div className='text'>
+        <div className='text' style={bgcolor && {backgroundColor: bgcolor, color: color}}>
           { data?.remaining >= 0 && data?.limit}
         </div>
       </div>
@@ -123,19 +123,9 @@ function App() {
         "Content-Type": "application/json",
         "X-Master-Key": "$2a$10$Wpu95i5igWe6O9J/0DhqPe8tyqxrLlZBqIT.oze/hPCNspAIKMPiO"
       }
-    }).then(() => {
-      setLoading(true);
-      axios.get(`https://api.jsonbin.io/v3/b/668b0ffbad19ca34f8845079`, {
-        headers: {
-          "X-Master-Key": "$2a$10$Wpu95i5igWe6O9J/0DhqPe8tyqxrLlZBqIT.oze/hPCNspAIKMPiO"
-        }
-      }).then((res) => {
+    }).then((res) => {
       setLoading(false);
-        setResponse(res.data.record.data);
-      }).catch((err) => {
-        console.log('err', err);
-      })
-    })
+    });
   };
     function handleSubmit(e) {
       // Prevent the browser from reloading the page
@@ -156,26 +146,35 @@ function App() {
     }
     useEffect(() => {
       if(req) {
+        setResponse(req);
         update();
       }
     }, [req]);
 
     function handleUpdate() {
-      if (self == 'okan') {
-        setReq({...response, okan: {...response.okan, remaining: response.okan.remaining-1}});
-      };
-      if (self == 'oguzhan') {
-        setReq({...response, oguzhan: {...response.oguzhan, remaining: response.oguzhan.remaining-1}});
-      };
-      if (self == 'omer') {
-        setReq({...response, omer: {...response.omer, remaining: response.omer.remaining-1}});
-      };
-      if (self == 'efe') {
-        setReq({...response, efe: {...response.efe, remaining: response.efe.remaining-1}});
-      };
-      if (self == 'mert') {
-        setReq({...response, mert: {...response.mert, remaining: response.mert.remaining-1}});
-      };
+      axios.get(`https://api.jsonbin.io/v3/b/668b0ffbad19ca34f8845079`, {
+        headers: {
+          "X-Master-Key": "$2a$10$Wpu95i5igWe6O9J/0DhqPe8tyqxrLlZBqIT.oze/hPCNspAIKMPiO"
+        }
+      }).then((res) => {
+        const ress = res.data.record.data;
+        setResponse(ress);
+        if (self == 'okan') {
+          setReq({...ress, okan: {...ress.okan, remaining: ress.okan.remaining-1}});
+        };
+        if (self == 'oguzhan') {
+          setReq({...ress, oguzhan: {...ress.oguzhan, remaining: ress.oguzhan.remaining-1}});
+        };
+        if (self == 'omer') {
+          setReq({...ress, omer: {...ress.omer, remaining: ress.omer.remaining-1}});
+        };
+        if (self == 'efe') {
+          setReq({...ress, efe: {...ress.efe, remaining: ress.efe.remaining-1}});
+        };
+        if (self == 'mert') {
+          setReq({...ress, mert: {...ress.mert, remaining: ress.mert.remaining-1}});
+        };
+      })
     };
   
   if (loading) {return(<div style={{ display: 'flex', width: '100%', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
@@ -185,10 +184,10 @@ function App() {
     return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', height: '100vh', alignItems: 'center' }}>
         <div style={{marginBottom: 30}}><button className="button2" role="button" onClick={() => {handleUpdate()}}>Ben ibneyim çünkü bu butona basçam.</button></div>
-      {Card(response?.okan)}
+      {Card(response?.okan, '#cc0000  ', '#e6e600')}
       {Card(response?.omer)}
       {Card(response?.oguzhan)}
-      {Card(response?.efe)}
+      {/* {Card(response?.efe)} */}
       {Card(response?.mert)}
         <button  className="button" style={{display: 'flex',width: 200, height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 100}} onClick={() => {localStorage.removeItem('name'); setSelf(null)}}>Çıkış</button>
     </div>
